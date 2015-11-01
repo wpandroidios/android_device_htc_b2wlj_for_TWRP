@@ -24,47 +24,61 @@
 # 0PAG10000 - KDDI
 # 0PAG20000 - International
 
-TARGET_OTA_ASSERT_DEVICE := b2,b2wlj,htc_b2wlj,b2ul
+BOARD_VENDOR := b2,b2wlj,htc_b2wlj,b2ul
 
-# For Japan device
-JPN_FELICA_DEVICE := true
+# Bootloader
+TARGET_BOOTLOADER_BOARD_NAME := MSM8974
+TARGET_NO_BOOTLOADER := true
 
-# Inherit from common msm8974-common
--include device/htc/msm8974-common/BoardConfigCommon.mk
+# Platform
+TARGET_BOARD_PLATFORM := msm8974
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno330
+
+# Architecture
+TARGET_ARCH := arm
+TARGET_ARCH_VARIANT := armv7-a-neon
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
+TARGET_CPU_SMP := true
+TARGET_CPU_VARIANT := krait
+TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
 
 # Kernel
-BOARD_CUSTOM_BOOTIMG_MK := device/htc/b2wlj/mkbootimg.mk
-TARGET_KERNEL_CONFIG := cm_b2wlj_defconfig
-
-# Assertions
-TARGET_BOARD_INFO_FILE ?= device/htc/b2wlj/board-info.txt
-
-# Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/b2wlj/bluetooth
-
-# Includes
-TARGET_SPECIFIC_HEADER_PATH := device/htc/b2wlj/include
-
-# NFC
-BOARD_NFC_HAL_SUFFIX := msm8974
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=qcom user_debug=31 ehci-hcd.park=3 zcache androidboot.selinux=permissive
+BOARD_KERNEL_BASE := 0x00000000
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_KERNEL_SEPARATED_DT := true
+BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x02008000 --dt device/htc/b2wlj/recovery/kernel/dt.img --tags_offset 0x01e00000
+BOARD_CUSTOM_BOOTIMG_MK := device/htc/b2wlj/recovery/kernel/mkbootimg.mk
 
 # Partitions
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2818572288
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 1476395008
 
-# SELinux
-BOARD_SEPOLICY_DIRS += device/htc/b2wlj/sepolicy
+# Recovery
+BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_HAS_NO_MISC_PARTITION := true
+BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_RECOVERY_SWIPE := true
+BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
+BOARD_USES_MMCUTILS := true
+TARGET_PREBUILT_KERNEL := device/htc/b2wlj/recovery/kernel/kernel
+TARGET_RECOVERY_INITRC := device/htc/b2wlj/recovery/etc/init.rc
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
 
-BOARD_SEPOLICY_UNION += \
-    cir_fw_update.te \
-    file_contexts \
-    system_app.te
+# TWRP Build Flags
+BOARD_RECOVERY_BLDRMSG_OFFSET := 2048
+TW_THEME := portrait_hdpi
+TW_INCLUDE_DUMLOCK := true
+TW_INCLUDE_CRYPTO := true
+TW_NO_EXFAT_FUSE := true
+TW_NO_SCREEN_BLANK := true
+
+# USB
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/msm_dwc3/f9200000.dwc3/gadget/lun%d/file
 
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
 TARGET_INIT_VENDOR_LIB := libinit_b2wlj
 TARGET_LIBINIT_DEFINES_FILE := device/htc/b2wlj/init/init_b2wlj.c
-
-# Releasetools
-TARGET_RELEASETOOLS_EXTENSIONS := device/htc/b2wlj/releasetools
-

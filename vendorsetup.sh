@@ -1,0 +1,2 @@
+add_lunch_combo omni_b2wlj-userdebug
+add_lunch_combo omni_b2wlj-eng
